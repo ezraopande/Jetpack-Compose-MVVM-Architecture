@@ -51,6 +51,10 @@ android {
 
 dependencies {
 
+    implementation (libs.accompanist.pager)
+    implementation (libs.accompanist.pager.indicators)
+    implementation (libs.androidx.foundation)
+    implementation (libs.androidx.animation)
     implementation (libs.androidx.material)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.core.ktx)

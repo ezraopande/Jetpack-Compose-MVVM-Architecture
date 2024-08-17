@@ -1,21 +1,29 @@
 package com.ezra.mvvmarchitecture.ui.theme.home
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Favorite
@@ -28,15 +36,24 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.ezra.mvvmarchitecture.R
 import com.ezra.mvvmarchitecture.navigation.ROUTE_ABOUT
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -44,6 +61,12 @@ import com.ezra.mvvmarchitecture.navigation.ROUTE_ABOUT
 fun Home(navController: NavController) {
     var showFAB by remember { mutableStateOf(false) }
     val selectedIndex = remember { mutableStateOf(0) }
+
+    val images = listOf(
+        R.drawable.logo,
+        R.drawable.logo,
+        R.drawable.logo
+    )
 
     Scaffold(
         topBar = {
@@ -65,6 +88,10 @@ fun Home(navController: NavController) {
                         .fillMaxSize()
 
                 ) {
+                    // slider goes here
+                    ImageSlider(images = images, imageWidth = 300.dp)
+
+
                     Text(text = "Home Screen")
 
                     Text(
@@ -73,6 +100,8 @@ fun Home(navController: NavController) {
                             .clickable { navController.navigate(ROUTE_ABOUT) }
                             .padding(top = 16.dp)
                     )
+
+
 
 
 
@@ -140,4 +169,52 @@ fun Home(navController: NavController) {
             }
         }
     )
+}
+
+
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun ImageSlider(images: List<Int>, imageWidth: Dp = 300.dp) {
+    val pagerState = rememberPagerState(pageCount = { images.size })
+    val coroutineScope = rememberCoroutineScope()
+
+    // Automatically change the visible image
+    LaunchedEffect(pagerState.currentPage) {
+        while (true) {
+            delay(3000) // Change image every 3 seconds
+            coroutineScope.launch {
+                pagerState.animateScrollToPage((pagerState.currentPage + 1) % images.size)
+            }
+        }
+    }
+
+    // Animation for smooth transition
+    val offset by animateFloatAsState(
+        targetValue = pagerState.currentPage.toFloat(),
+        animationSpec = tween(durationMillis = 600)
+    )
+
+    HorizontalPager(
+        state = pagerState,
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(200.dp)
+    ) { page ->
+        Image(
+            painter = painterResource(id = images[page]),
+            contentDescription = "Slider Image",
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(8.dp)
+                .graphicsLayer {
+                    val pageOffset = (pagerState.currentPage - page).toFloat()
+                    val scale = 1f - (pageOffset * 0.2f).coerceIn(0f, 0.2f)
+                    scaleX = scale
+                    scaleY = scale
+                    alpha = 1 - (pageOffset * 0.5f).coerceIn(0f, 0.5f)
+                },
+            contentScale = ContentScale.Crop
+        )
+    }
 }

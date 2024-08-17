@@ -1,7 +1,6 @@
-
 # MVVM Architecture Project in Kotlin with Jetpack Compose
 
-This project demonstrates the implementation of the MVVM (Model-View-ViewModel) architecture using Kotlin and Jetpack Compose. The project includes screen navigation, a bottom navigation bar, and a floating action button (FAB) for additional actions.
+This project demonstrates the implementation of the MVVM (Model-View-ViewModel) architecture using Kotlin and Jetpack Compose. The project includes screen navigation, a bottom navigation bar, a floating action button (FAB), and an image slider for enhanced user experience.
 
 ## Features
 
@@ -10,6 +9,7 @@ This project demonstrates the implementation of the MVVM (Model-View-ViewModel) 
 - **Navigation**: Seamless navigation between different screens.
 - **Bottom Navigation**: A bottom navigation bar for easy switching between main sections.
 - **Floating Action Button (FAB)**: A FAB for quick access to key actions.
+- **Image Slider**: A visually appealing horizontal image slider with smooth transitions and animations.
 
 ## Project Structure
 
@@ -21,9 +21,9 @@ The project is organized into the following packages:
 
 ## Screens
 
-- **Home Screen**: Displays main content with a top app bar, bottom navigation, and a FAB.
+- **Home Screen**: Displays main content with a top app bar, bottom navigation, a FAB, and an image slider.
 - **Detail Screen**: A secondary screen that can be navigated to from the Home Screen.
-  
+
 ## Navigation
 
 Navigation in this project is handled using the `NavController` provided by Jetpack Compose. Each screen is linked through a composable function, and the navigation logic is managed in the ViewModel layer to maintain clean separation of concerns.
@@ -32,9 +32,9 @@ Navigation in this project is handled using the `NavController` provided by Jetp
 
 1. **Clone the repository:**
 
-    \`\`\`bash
+    ```bash
     git clone https://github.com/ezraopande/Jetpack-Compose-MVVM-Architecture.git
-    \`\`\`
+    ```
 
 2. **Open the project in Android Studio:**
 
@@ -53,19 +53,17 @@ Navigation in this project is handled using the `NavController` provided by Jetp
 
 ## Usage
 
-- **Home Screen**: Contains a top app bar with a title, a bottom navigation bar for switching between sections, and a FAB for additional actions.
+- **Home Screen**: Contains a top app bar with a title, a bottom navigation bar for switching between sections, a FAB for additional actions, and an image slider for showcasing visuals.
 - **Bottom Navigation**: Switch between different sections of the app.
 - **FAB**: Triggers actions like opening a new screen or performing quick tasks.
+- **Image Slider**: Displays a carousel of images with smooth transitions and animations to enhance the user experience.
 - **ViewModel**: Handles the UI logic and manages the data displayed on the screen.
-
-
-
 
 ## Contact
 
 For any questions or feedback, feel free to reach out to:
 
-- Email: ezraopande@gmail.com
+- Email: [ezraopande@gmail.com](mailto:ezraopande@gmail.com)
 - Phone: +254796759850
 
 ---
